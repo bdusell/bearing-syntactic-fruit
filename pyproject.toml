@@ -1,0 +1,21 @@
+[project]
+name = "bearing-syntactic-fruit"
+version = "0.1.0"
+description = "Code for the paper \"Bearing Syntactic Fruit with Stack-Augmented Neural Networks.\""
+license = "MIT"
+authors = [
+    { name = "Brian DuSell", email = "brian.dusell@inf.ethz.ch" }
+]
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "rau @ git+https://github.com/bdusell/rau.git@1b80c20314ed0a95402b24c1253ff25b87a161da",
+    "numpy (>=2.3.2,<3.0.0)",
+    "scipy (>=1.16.1,<2.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
