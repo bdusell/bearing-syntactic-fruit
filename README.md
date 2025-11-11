@@ -120,7 +120,7 @@ run outside of the container. You will need to edit the file
 your specific computing cluster.
 
 You should also edit the file
-[`experiments/non_anonymous_config.bash`](experiments/non_anonymous_config.bash)
+[`experiments/config.bash`](experiments/config.bash)
 to configure `BASE_DIR` to be a directory where all data and experimental
 results will be stored.
 
