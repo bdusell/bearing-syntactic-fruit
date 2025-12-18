@@ -1,10 +1,10 @@
 # Bearing Syntactic Fruit with Stack-Augmented Neural Networks
 
-This repository contains the code for the paper "Bearing Syntactic Fruit with
-Stack-Augmented Neural Networks" (DuSell & Cotterell, 2025). It includes all of
-the code necessary to reproduce the experiments and figures in the paper, as
-well as a Docker image definition that can be used to replicate the software
-environment it was developed in.
+This repository contains the code for the paper
+["Bearing Syntactic Fruit with Stack-Augmented Neural Networks" (DuSell & Cotterell, 2025)](https://arxiv.org/abs/2511.03547).
+It includes all of the code necessary to reproduce the experiments and figures
+in the paper, as well as a Docker image definition that can be used to
+replicate the software environment it was developed in.
 
 ## Directory Structure
 
@@ -156,3 +156,15 @@ the models are trained and evaluated, although they report partial results
 gracefully.
 
 * `print_table.bash`: Print the main table of results for each task.
+
+## Citation
+
+```bibtex
+@misc{dusell-cotterell-2025-bearing,
+    title = "Bearing Syntactic Fruit with Stack-Augmented Neural Networks",
+    author = "Brian DuSell and Ryan Cotterell",
+    year = "2025",
+    month = nov,
+    url = "https://arxiv.org/abs/2511.03547"
+}
+```
