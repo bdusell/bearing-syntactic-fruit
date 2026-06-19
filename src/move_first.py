@@ -1,6 +1,19 @@
 import sys
 
-AUXILIARY_VERBS = { 'do', 'does', 'don\'t', 'doesn\'t' }
+AUXILIARY_VERBS = {
+    'do',
+    'does',
+    "don't",
+    "doesn't",
+    'have',
+    'has',
+    'haven\'t',
+    "hasn't",
+    'haben',
+    'hat',
+    'können',
+    'kann'
+}
 
 def get_move_first(words):
     match words[-1]:

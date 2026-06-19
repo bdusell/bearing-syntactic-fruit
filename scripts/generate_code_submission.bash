@@ -10,6 +10,7 @@ zip -r "$output_file" . \
     'pyproject.toml' \
     'README.md' \
     'src/*' \
+    'tests/*' \
     'experiments/*' \
     'scripts/*' \
     'bin/*' \

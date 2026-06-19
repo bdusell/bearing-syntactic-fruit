@@ -3,7 +3,7 @@ set -euo pipefail
 . experiments/include.bash
 
 usage() {
-  echo "Usage: $0 <job-name> <device> [sbatch-flags...] -- <command>...
+  echo "Usage: bash $0 <job-name> <device> [sbatch-flags...] -- <command>...
 
   This script does nothing unless the command sbatch is available. This is a
   stub for a script that submits a command as a batch job to your scientific

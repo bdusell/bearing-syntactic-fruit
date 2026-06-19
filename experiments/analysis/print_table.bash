@@ -2,7 +2,9 @@ set -euo pipefail
 . experiments/include.bash
 
 task_style=lm
-for task in question-formation tense-reinflection; do
+
+for task in "${TASKS[@]}"; do
+  echo "$task"
   args=()
   for architecture in transformer{,+{sup,nd}{,-x2}} {rnn,lstm}{,+{sup,nd}{,+r}}; do
     args+=(--label "$(architecture_label "$architecture")")
@@ -12,4 +14,5 @@ for task in question-formation tense-reinflection; do
     done
   done
   bash experiments/run.bash cpu python print_mean_table.py "${args[@]}"
+  echo
 done

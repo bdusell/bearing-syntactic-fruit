@@ -105,7 +105,7 @@ rau "$task_style" train \
   --output "$model_dir" \
   --training-data "$dataset_dir" \
   "${final_architecture_args[@]}" \
-  --max-epochs 1000 \
+  --max-epochs 5 \
   --max-tokens-per-batch "$(random_sample --int 512 2048)" \
   --optimizer Adam \
   --initial-learning-rate "$(random_sample --log 1e-5 1e-3)" \

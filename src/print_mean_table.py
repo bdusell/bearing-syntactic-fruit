@@ -1,4 +1,5 @@
 import json
+import math
 import sys
 
 import numpy
@@ -60,9 +61,20 @@ def get_wrong_generalization_fine_accuracy(cache):
 def get_wrong_generalization_conditional_cross_entropy(cache):
     return read_cross_entropy(cache, 'generalization-wrong-target')
 
+def get_wrong_generalization_conditional_probability(cache):
+    return read_conditional_probability(cache, 'generalization-wrong-target')
+
 def get_generalization_log_ratio(cache):
     return mean_and_std([
-        read_txt(t, 'probability', 'generalization-ratio')
+        math.log(read_json_attr(t, 'probability', 'generalization-target', 'mean_sequence_probability')) -
+        math.log(read_json_attr(t, 'probability', 'generalization-wrong-target', 'mean_sequence_probability'))
+        for t in cache['trials']
+    ])
+
+def get_generalization_fine_log_ratio(cache):
+    return mean_and_std([
+        math.log(read_txt(t, 'fine-accuracy', 'generalization')) -
+        math.log(read_txt(t, 'fine-accuracy', 'generalization-wrong'))
         for t in cache['trials']
     ])
 
@@ -129,16 +141,18 @@ def main():
     col_format = format_mean_and_variance(places=(3, 2))
     run_main(
         header=r'''
-& \multicolumn{2}{c}{Test} & \multicolumn{6}{c}{Generalization} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-9}
+& \multicolumn{8}{c}{Full Accuracy} & \multicolumn{6}{c}{Partial Accuracy} \\
+\cmidrule(lr){2-9} \cmidrule(lr){10-15}
 '''.strip(),
         columns=[
             Column('Architecture', 'l', 'label', format_text()),
-            Column('CP $\\uparrow$', 'S', 'test_conditional_probability', col_format, bold_max=True),
-            Column('CP $\\uparrow$', 'S', 'generalization_conditional_probability', col_format, bold_max=True),
-            Column('CCE $\\downarrow$', 'S', 'generalization_conditional_cross_entropy', col_format, bold_min=True),
-            Column('FA $\\uparrow$', 'S', 'generalization_fine_accuracy', col_format, bold_max=True),
-            Column('Log Ratio $\\uparrow$', 'S', 'generalization_log_ratio', col_format, bold_max=True)
+            Column(r'Test $\uparrow$', 'S', 'test_conditional_probability', col_format, bold_max=True),
+            Column(r'Hier. $\uparrow$', 'S', 'generalization_conditional_probability', col_format, bold_max=True),
+            Column(r'Linear $\downarrow$', 'S', 'wrong_generalization_conditional_probability', col_format, bold_min=True),
+            Column(r'Log Ratio $\uparrow$', 'S', 'generalization_log_ratio', col_format, bold_max=True),
+            Column(r'Hier. $\uparrow$', 'S', 'generalization_fine_accuracy', col_format, bold_max=True),
+            Column(r'Linear $\downarrow$', 'S', 'wrong_generalization_fine_accuracy', col_format, bold_min=True),
+            Column(r'Log Ratio $\uparrow$', 'S', 'generalization_fine_log_ratio', col_format, bold_max=True)
         ],
         callbacks={
             'validation_cross_entropy' : get_validation_cross_entropy,
@@ -154,7 +168,9 @@ def main():
             'wrong_generalization_full_match_accuracy' : get_wrong_generalization_full_match_accuracy,
             'wrong_generalization_fine_accuracy' : get_wrong_generalization_fine_accuracy,
             'wrong_generalization_conditional_cross_entropy' : get_wrong_generalization_conditional_cross_entropy,
-            'generalization_log_ratio' : get_generalization_log_ratio
+            'wrong_generalization_conditional_probability' : get_wrong_generalization_conditional_probability,
+            'generalization_log_ratio' : get_generalization_log_ratio,
+            'generalization_fine_log_ratio' : get_generalization_fine_log_ratio
         }
     )
 

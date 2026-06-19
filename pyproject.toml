@@ -8,9 +8,10 @@ authors = [
 ]
 requires-python = ">=3.12,<4.0"
 dependencies = [
-    "rau @ git+https://github.com/bdusell/rau.git@1b80c20314ed0a95402b24c1253ff25b87a161da",
+    "rau @ git+https://github.com/bdusell/rau.git@4ff0c046bb4e763bc78d149ef5f40073c97931be",
     "numpy (>=2.3.2,<3.0.0)",
-    "scipy (>=1.16.1,<2.0.0)"
+    "scipy (>=1.16.1,<2.0.0)",
+    "matplotlib (>=3.10.7,<4.0.0)"
 ]
 
 [tool.poetry]

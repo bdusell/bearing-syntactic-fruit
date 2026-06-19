@@ -6,8 +6,16 @@ submit_job() {
   bash experiments/submit_job.bash "$@"
 }
 
-TASKS=(question-formation tense-reinflection)
-ARCHITECTURES=(\
+TASKS=( \
+  question-formation \
+  tense-reinflection \
+  tense-reinflection-with-do \
+  question-formation-with-have \
+  question-formation-in-german \
+  passivization \
+  passivization-in-german \
+)
+ARCHITECTURES=( \
   transformer \
   rnn \
   lstm \
@@ -18,6 +26,7 @@ ARCHITECTURES=(\
 )
 HYPERPARAMETER_TRIALS=({1..10})
 TRIALS=({1..5})
+OVERTRAIN_TRIALS=({1..5})
 
 architecture_label() {
   local r

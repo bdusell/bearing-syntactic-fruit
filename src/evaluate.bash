@@ -52,14 +52,18 @@ case $task_style in
       --max-length 100
     mkdir -p "$fine_dir"
     case $dataset_name in
-      question-formation)
+      question-formation|question-formation-with-have|question-formation-in-german)
         for d in test generalization generalization-wrong; do
           output_file=$fine_dir/$d.txt
           echo "writing $output_file"
           python first_word_accuracy.py "$prob_dir"/"$d"-target.pt > "$output_file"
         done
         ;;
-      tense-reinflection)
+      tense-reinflection|tense-reinflection-with-do)
+        flags=()
+        if [[ $dataset_name = tense-reinflection-with-do ]]; then
+          flags+=(--with-do)
+        fi
         rau lm generate \
           --load-model "$model_dir" \
           --training-data "$dataset_dir" \
@@ -73,6 +77,7 @@ case $task_style in
           output_file=$fine_dir/$d.txt
           echo "writing $output_file"
           python tense_reinflection_fine_accuracy.py \
+            "${flags[@]}" \
             "$fine_dir"/"$d"-source.tsv \
             "$dataset_dir"/datasets/"$d"-target/main.tok \
             > "$output_file"
@@ -80,6 +85,32 @@ case $task_style in
         output_file=$fine_dir/generalization-wrong.txt
         echo "writing $output_file"
         python tense_reinflection_fine_accuracy.py \
+          "${flags[@]}" \
+          "$fine_dir"/generalization-source.tsv \
+          "$dataset_dir"/datasets/generalization-wrong-target/main.tok \
+          > "$output_file"
+        ;;
+      passivization|passivization-in-german)
+        rau lm generate \
+          --load-model "$model_dir" \
+          --training-data "$dataset_dir" \
+          --prompt test-source generalization-source \
+          --output "$fine_dir" \
+          --random-seed 123 \
+          --num-samples 10 \
+          --max-length 2 \
+          --batching-max-tokens 512
+        for d in test generalization; do
+          output_file=$fine_dir/$d.txt
+          echo "writing $output_file"
+          python second_word_accuracy.py \
+            "$fine_dir"/"$d"-source.tsv \
+            "$dataset_dir"/datasets/"$d"-target/main.tok \
+            > "$output_file"
+        done
+        output_file=$fine_dir/generalization-wrong.txt
+        echo "writing $output_file"
+        python second_word_accuracy.py \
           "$fine_dir"/generalization-source.tsv \
           "$dataset_dir"/datasets/generalization-wrong-target/main.tok \
           > "$output_file"

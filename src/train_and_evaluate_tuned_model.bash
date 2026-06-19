@@ -15,10 +15,6 @@ if ! shift 5; then
 fi
 training_args=("$@")
 
-random_sample() {
-  python random_sample.py "$@"
-}
-
 dataset_dir=$base_dir/data/$task_style/$dataset_name
 hyperparameter_search_dir=$base_dir/models/hyperparameter-search/$task_style/$dataset_name/$architecture
 model_dir=$base_dir/models/tuned/$task_style/$dataset_name/$architecture/$trial_no
